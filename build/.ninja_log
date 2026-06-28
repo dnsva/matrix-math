@@ -1,0 +1,5 @@
+# ninja log v5
+1	1319	1782659329222851151	CMakeFiles/demo.dir/main.cpp.o	17da6bd88e1df21d
+1	1326	1782659329222961746	CMakeFiles/matrix_lib.dir/src/Matrix.cpp.o	a87db4f64a037933
+1326	1478	1782659329391998000	libmatrix_lib.a	d4c51902fd07f6f8
+1479	1569	1782659329478085523	bin/demo	65daaeb5e39decbc

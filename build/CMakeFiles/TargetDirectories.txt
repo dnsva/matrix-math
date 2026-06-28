@@ -1,0 +1,4 @@
+/Users/anna/Documents/github/matrix-math/build/CMakeFiles/matrix_lib.dir
+/Users/anna/Documents/github/matrix-math/build/CMakeFiles/demo.dir
+/Users/anna/Documents/github/matrix-math/build/CMakeFiles/edit_cache.dir
+/Users/anna/Documents/github/matrix-math/build/CMakeFiles/rebuild_cache.dir
