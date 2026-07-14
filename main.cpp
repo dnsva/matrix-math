@@ -4,7 +4,12 @@
 int main() {
 
     Matrix hi{2,3};
-    std::cout<<"hi";
+    //Matrix test{};
+    //std::cout<<"hi";
+
+    Matrix copy{hi};
+    std::cout<<copy.get_rows()<<"\n";
+
 
     return 0;
 }
