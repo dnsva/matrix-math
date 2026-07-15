@@ -64,7 +64,15 @@ private:
 > -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/member-functions-returning-references-to-data-members/)
 
 
+# Rule of 3 and Rule of 5
+
+> The rule of three is a well known C++ principle that states that if a class requires a user-defined copy constructor, destructor, or copy assignment operator, then it probably requires all three. In C++11, this was expanded to the rule of five, which adds the move constructor and move assignment operator to the list.
+>
+> -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/introduction-to-the-copy-constructor/)
 
 # Random Cool Things:
 
 C++16 has `std::optional<T>` which can either have a value of type T, or not. 
+
+#Continue from:
+https://www.learncpp.com/cpp-tutorial/class-initialization-and-copy-elision/
