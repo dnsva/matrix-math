@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <iostream>
+
 //this file only does declarations
 //everything is implemented in Matrix.cpp
 
@@ -15,6 +17,9 @@ private:
 
     int m_rows {};
     int m_cols {};
+
+    //Array to store the 2d matrix:
+    double* m_array = nullptr; //must set to nullptr first otherwise copy constructor will delete what doesnt have values. copy constructor checks if array address is nullptr
 
 
 public:
@@ -41,9 +46,7 @@ public:
         - If an object is passed by value as an argument, it is always passed in as a copy
     */
     //Best Practice: Prefer the implicit copy constructor, unless you have a specific reason to create your own. Source: (learncpp.com)
-    /*
     Matrix(const Matrix& other); //parameter should be a lvalue reference or const lvalue reference
-    */
 
 
     //Access Functions:
@@ -86,6 +89,10 @@ public:
     */
     ~Matrix();
     
+
+
+    //For operator overloading on cout it needs to be a friend to access the members directly
+    friend std::ostream& operator<<(std::ostream& out, const Matrix& matrix);
 };
 
 #endif

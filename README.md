@@ -63,6 +63,14 @@ private:
 >
 > -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/member-functions-returning-references-to-data-members/)
 
+# `explicit` keyword (not used in this project)
+
+> Making a constructor explicit has two notable consequences:
+
+- An explicit constructor cannot be used to do copy initialization or copy list initialization.
+- An explicit constructor cannot be used to do implicit conversions (since this uses copy initialization or copy list initialization).
+
+> -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/converting-constructors-and-the-explicit-keyword/)
 
 # Rule of 3 and Rule of 5
 
@@ -74,5 +82,5 @@ private:
 
 C++16 has `std::optional<T>` which can either have a value of type T, or not. 
 
-#Continue from:
+# Continue from:
 https://www.learncpp.com/cpp-tutorial/class-initialization-and-copy-elision/
