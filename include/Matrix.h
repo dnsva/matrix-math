@@ -48,6 +48,18 @@ public:
     //Best Practice: Prefer the implicit copy constructor, unless you have a specific reason to create your own. Source: (learncpp.com)
     Matrix(const Matrix& other); //parameter should be a lvalue reference or const lvalue reference
 
+    //Move Constructor:
+    //transfer ownership
+    /*
+    about noexcept - Move constructors and move assignment should be marked as noexcept. This tells the compiler that these functions will not throw exceptions. (learncpp.com)
+    */
+    Matrix(Matrix&& other) noexcept;
+
+    //Copy Assignment
+    Matrix& operator=(Matrix& other);
+
+    //Move Assignment - transfer ownership
+    Matrix& operator=(Matrix&& other) noexcept;
 
     //Access Functions:
     /*

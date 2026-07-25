@@ -28,7 +28,47 @@ No AI used in this project to write code
 > You cannot change Matrix or the pointer itself.
 > This is how it is for a const member function.
 
+### std::move()
 
+From [geeksforgeeks.org](https://www.geeksforgeeks.org/cpp/move-constructors-in-c-with-examples/)
+```cpp
+    // Constructor is called
+    Geeks obj1(42);              
+    // Move constructor is called
+    Geeks obj2 = std::move(obj1); 
+
+    cout << "\nAfter move:\n";
+    cout << "obj1: ";
+    // Should show "No data"
+    obj1.display();              
+    cout << "obj2: ";
+    // Should show "Value: 42"
+    obj2.display(); 
+```
+Once you start using move semantics more regularly, you’ll start to find cases where you want to invoke move semantics, but the objects you have to work with are l-values, not r-values. 
+
+In C++11, std::move is a standard library function that casts (using static_cast) its argument into an r-value reference, so that move semantics can be invoked. Thus, we can use std::move to cast an l-value into a type that will prefer being moved over being copied. std::move is defined in the utility header.
+
+[learncpp.com](https://www.learncpp.com/cpp-tutorial/stdmove/)
+
+### Implicit move constructor and move assignment operator (learncpp.com)
+
+The compiler will create an implicit move constructor and move assignment operator if all of the following are true:
+
+- There are no user-declared copy constructors or copy assignment operators.
+- There are no user-declared move constructors or move assignment operators.
+- There is no user-declared destructor.
+
+These functions do a memberwise move, which behaves as follows:
+
+- If member has a move constructor or move assignment (as appropriate), it will be invoked. Otherwise, the member will be copied.
+
+Notably, this means that pointers will be copied, not moved!
+
+Warning:
+The implicit move constructor and move assignment will copy pointers, not move them. If you want to move a pointer member, you will need to define the move constructor and move assignment yourself.
+
+[learncpp.com](https://www.learncpp.com/cpp-tutorial/move-constructors-and-move-assignment/)
 
 ### const member function
 
@@ -77,6 +117,9 @@ private:
 > The rule of three is a well known C++ principle that states that if a class requires a user-defined copy constructor, destructor, or copy assignment operator, then it probably requires all three. In C++11, this was expanded to the rule of five, which adds the move constructor and move assignment operator to the list.
 >
 > -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/introduction-to-the-copy-constructor/)
+
+> The rule of five says that if the copy constructor, copy assignment, move constructor, move assignment, or destructor are defined or deleted, then each of those functions should be defined or deleted.
+> -- [learncpp.com](https://www.learncpp.com/cpp-tutorial/move-constructors-and-move-assignment/)
 
 # Random Cool Things:
 

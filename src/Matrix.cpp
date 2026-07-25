@@ -69,6 +69,76 @@ Matrix::Matrix(const Matrix& other)
 
 }
 
+//Move Constructor:
+Matrix::Matrix(Matrix&& other) noexcept
+    : m_rows{other.m_rows}
+    , m_cols{other.m_cols}
+    , m_array{other.m_array}
+{
+    std::cout<<"Inside the move constructor for setting object at "<<this<<" from rval obj "<<&other<<"\n";
+    other.m_rows = 0;
+    other.m_cols = 0;
+    other.m_array = nullptr;
+}
+
+//the = operator:
+
+//Copy Assignment
+Matrix& Matrix::operator=(Matrix& other){
+
+    /*
+    used in the following scenario:
+    Matrix hi{2,3};
+    Matrix copy;
+    copy = hi;
+    
+    */
+
+    std::cout<<"Inside the copy assignment operator overload!!!\n";
+    std::cout<<"Setting object at "<<this<<" from obj "<<&other<<"\n";
+    
+    //Detecting self-assignment
+    if(&other == this) return *this;
+
+    this->m_rows = other.m_rows;
+    this->m_cols = other.m_cols;
+
+    //Below i just directly pasted from the constructor
+    if(m_array != nullptr) delete[] m_array;
+    
+    int num_elems = other.m_rows*other.m_cols;
+    m_array = new double[num_elems];
+    for(int i = 0; i < num_elems; i++){
+        m_array[i] = other.m_array[i];
+    }
+
+    return *this;
+   
+}
+
+//Move Assignment
+Matrix& Matrix::operator=(Matrix&& other) noexcept{
+
+    std::cout<<"Inside the move assignment operator overload!!!\n";
+    std::cout<<"Setting object at "<<this<<" from obj (rval) "<<&other<<"\n";
+
+    //Detecting self-assignment again
+    if(&other == this) return *this;
+
+    //Release any resources we are holding:
+    delete[] m_array;
+
+    //Transfer ownership of r value to l value
+    m_rows = other.m_rows;
+    m_cols = other.m_cols;
+    m_array = other.m_array;
+    
+    other.m_rows = 0;
+    other.m_cols = 0;
+    other.m_array = nullptr;
+    return *this;
+}
+
 //Destructor:
 Matrix::~Matrix(){
     std::cout<<"Obj at memory: " << this << " got destructed...\n";
