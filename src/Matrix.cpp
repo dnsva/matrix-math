@@ -34,8 +34,19 @@ Matrix::Matrix(int rows, int cols)
    
 }
 
-Matrix::Matrix(int rows, int cols, double fill)
-{ //todo
+Matrix::Matrix(int rows, int cols, double arr[]) //to the compiler, this is identical as saying double* arr
+    
+    : m_rows{rows}
+    , m_cols{cols}
+   
+{ 
+    //std::cout<<"the address of the array from the arg is "<<&arr<<"\n";
+    //std::cout<<"m_array now holds "<<&m_array<<"\n";
+    std::cout<<this<<" was allocated using the Matrix(r,c,arr) constructor\n";
+
+    m_array = new double[rows*cols];
+    for(int i = 0; i < rows*cols; i++) m_array[i] = arr[i];
+
 }
 
 /* Usually its implicit. Only define if you have to.
@@ -141,10 +152,17 @@ Matrix& Matrix::operator=(Matrix&& other) noexcept{
 
 //Destructor:
 Matrix::~Matrix(){
+
+    if(m_array == nullptr) return; //idk if this is necessary
+
     std::cout<<"Obj at memory: " << this << " got destructed...\n";
 
+    std::cout<<"attemptingn to delete array at "<<m_array<<"\n";
     delete[] m_array;
+    std::cout<<"array now deletd\n";
     m_array = nullptr;
+
+    std::cout<<"successfully destructed\n";
 }
 
 //Public member functions:

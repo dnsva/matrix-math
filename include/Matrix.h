@@ -30,7 +30,7 @@ public:
     */
     Matrix(); //explicitly default constructor
     Matrix(int rows, int cols);
-    Matrix(int rows, int cols, double fill);
+    Matrix(int rows, int cols, double arr[]); //populate matrix w 1D array
 
     //Copy Constructor:
     /*
