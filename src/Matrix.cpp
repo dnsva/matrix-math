@@ -92,8 +92,7 @@ Matrix::Matrix(Matrix&& other) noexcept
     other.m_array = nullptr;
 }
 
-//the = operator:
-
+//the = operator: assignment (copy and move)
 //Copy Assignment
 Matrix& Matrix::operator=(const Matrix& other){
 
@@ -173,9 +172,18 @@ Matrix::~Matrix(){
 const int& Matrix::get_rows() const {return m_rows;}
 const int& Matrix::get_cols() const {return m_cols;}
 
+/* TO DO: ADD EXCEPTION THROW FOR THESE TWO FNS BELOW - need error handling*/
+const double& Matrix::get(int r, int c) const {
+    return m_array[r*m_cols + c];
+}
 
-//Operator overloading for cout
+void Matrix::set(int r, int c, double value){
+    m_array[r*m_cols + c] = value;
+}
 
+//Operator Overloads
+
+//for cout:
 std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
     for(int r = 0; r < matrix.m_rows; ++r){
@@ -187,3 +195,6 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
     return out; //this is needed so that calls to the operator<< can be chained 
 }
+
+/* ARITHMETIC OPERATORS: */
+

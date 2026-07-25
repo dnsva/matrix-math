@@ -86,12 +86,15 @@ public:
     */
     const int& get_rows() const; //the second const keyword is the "member function const qualifier"
     const int& get_cols() const; //this promises not to modify the object it is being called on
+    
+    const double& get(int r, int c) const; //getter for any given pos
+    
     //Setters:
     //to do...
     /*
-    rows and col change. if bigger than current than just extend. if not then throw exception? warning? and cutt off the data? 
+    rows and col change? if bigger than current than just extend. if not then throw exception? warning? and cutt off the data? 
     */
-
+    void set(int r, int c, double value);
 
     //Destructor:
     /*
@@ -100,11 +103,22 @@ public:
     - No return type.
     */
     ~Matrix();
-    
 
+    //Operator overloading:
 
     //For operator overloading on cout it needs to be a friend to access the members directly
     friend std::ostream& operator<<(std::ostream& out, const Matrix& matrix);
+
+    /* ARITHMETIC OPERATORS: */
+    //to do:
+    friend Matrix& operator+(Matrix& other);
+    friend Matrix& operator-(Matrix& other);
+    friend Matrix& operator*(Matrix& other); //scalar multiply
+    friend Matrix& operator*(Matrix& other); //Matrix multiply
+    friend bool operator==(Matrix& a, Matrix& b); //testing purposes
+  //  friend operator[]
+
+
 };
 
 #endif
