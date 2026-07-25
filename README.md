@@ -126,4 +126,3 @@ private:
 C++16 has `std::optional<T>` which can either have a value of type T, or not. 
 
 # Continue from:
-https://www.learncpp.com/cpp-tutorial/class-initialization-and-copy-elision/

@@ -25,8 +25,8 @@ Matrix::Matrix() = default; /* Prefer an explicitly defaulted default constructo
 
 Matrix::Matrix(int rows, int cols)
     /* u could do: (int rows=0, int cols=0) to act as a default constructor */
-    : m_rows{rows} // values are initialized to 0
-    , m_cols{cols} // aka 0-initialized
+    : m_rows{rows}
+    , m_cols{cols}
 {
     std::cout<<this<<" was allocated using the Matrix(r,c) constructor\n";
     m_array = new double[rows*cols];
@@ -45,7 +45,7 @@ Matrix::Matrix(int rows, int cols, double arr[]) //to the compiler, this is iden
     std::cout<<this<<" was allocated using the Matrix(r,c,arr) constructor\n";
 
     m_array = new double[rows*cols];
-    for(int i = 0; i < rows*cols; i++) m_array[i] = arr[i];
+    for(int i = 0; i < rows*cols; ++i) m_array[i] = arr[i]; /* pre vs post increment: https://www.learncpp.com/cpp-tutorial/increment-decrement-operators-and-side-effects/*/
 
 }
 
@@ -95,7 +95,7 @@ Matrix::Matrix(Matrix&& other) noexcept
 //the = operator:
 
 //Copy Assignment
-Matrix& Matrix::operator=(Matrix& other){
+Matrix& Matrix::operator=(const Matrix& other){
 
     /*
     used in the following scenario:
@@ -104,6 +104,10 @@ Matrix& Matrix::operator=(Matrix& other){
     copy = hi;
     
     */
+
+   /*
+   Future to do: use/implement swap function
+   */
 
     std::cout<<"Inside the copy assignment operator overload!!!\n";
     std::cout<<"Setting object at "<<this<<" from obj "<<&other<<"\n";
@@ -176,9 +180,9 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
     for(int r = 0; r < matrix.m_rows; ++r){
         for(int c = 0; c < matrix.m_cols; ++c){
-            std::cout<< matrix.m_array[r*c + r] <<" ";
+            out << matrix.m_array[r*matrix.m_cols + c] <<" ";
         }
-        std::cout<<"\n";
+        out <<"\n";
     }
 
     return out; //this is needed so that calls to the operator<< can be chained 

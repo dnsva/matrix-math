@@ -56,7 +56,7 @@ public:
     Matrix(Matrix&& other) noexcept;
 
     //Copy Assignment
-    Matrix& operator=(Matrix& other);
+    Matrix& operator=(const Matrix& other);
 
     //Move Assignment - transfer ownership
     Matrix& operator=(Matrix&& other) noexcept;
