@@ -111,8 +111,9 @@ public:
 
     /* ARITHMETIC OPERATORS: */
     //to do:
-    friend Matrix& operator+(Matrix& other);
-    friend Matrix& operator-(Matrix& other);
+    friend Matrix operator+(Matrix& a, Matrix& b); //add two matrices (their values). matrices must be same dims
+    friend Matrix operator-(Matrix& a, Matrix& b); //see add
+    
     friend Matrix& operator*(Matrix& other); //scalar multiply
     friend Matrix& operator*(Matrix& other); //Matrix multiply
     friend bool operator==(Matrix& a, Matrix& b); //testing purposes

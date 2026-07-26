@@ -34,6 +34,10 @@ Matrix::Matrix(int rows, int cols)
    
 }
 
+/* 
+something to think about - an array of ints could be passed in and it wont compile.
+find a way to cast to arr of doubles so that it works too
+*/
 Matrix::Matrix(int rows, int cols, double arr[]) //to the compiler, this is identical as saying double* arr
     
     : m_rows{rows}
@@ -172,12 +176,20 @@ Matrix::~Matrix(){
 const int& Matrix::get_rows() const {return m_rows;}
 const int& Matrix::get_cols() const {return m_cols;}
 
-/* TO DO: ADD EXCEPTION THROW FOR THESE TWO FNS BELOW - need error handling*/
+/*
+to do: better error handling
+*/
 const double& Matrix::get(int r, int c) const {
+    if(r >= m_rows  || c >= m_cols ||  r < 0 || c < 0){
+        throw std::out_of_range("The indices are out of bounds!");
+    }
     return m_array[r*m_cols + c];
 }
 
 void Matrix::set(int r, int c, double value){
+    if(r >= m_rows  || c >= m_cols ||  r < 0 || c < 0){
+        throw std::out_of_range("The indices are out of bounds!");
+    }
     m_array[r*m_cols + c] = value;
 }
 
@@ -198,3 +210,29 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
 /* ARITHMETIC OPERATORS: */
 
+//Addition
+//Add the corresponding values of the cells together
+Matrix operator+(Matrix& a, Matrix& b){
+    if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
+        throw std::length_error("The sizes of both matricies must equal each other!");
+    }
+    Matrix temp = a; //should trigger copy consntructor
+    for(int i = 0; i < a.m_rows*a.m_cols; i++){
+        temp.m_array[i] += b.m_array[i];
+    }
+
+    return temp;
+}
+
+Matrix operator-(Matrix& a, Matrix& b){
+    //copy paste from above with just a sign change
+    if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
+        throw std::length_error("The sizes of both matricies must equal each other!");
+    }
+    Matrix temp = a; //should trigger copy consntructor
+    for(int i = 0; i < a.m_rows*a.m_cols; i++){
+        temp.m_array[i] -= b.m_array[i];
+    }
+
+    return temp;
+}
