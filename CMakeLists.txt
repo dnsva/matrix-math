@@ -15,10 +15,3 @@ target_compile_options(matrix_lib PRIVATE -Wall -Wextra)
 # Demo executable
 add_executable(demo main.cpp)
 target_link_libraries(demo PRIVATE matrix_lib)
-
-# Test executable
-# add_executable(tests tests/test_matrix.cpp)
-# target_link_libraries(tests PRIVATE matrix_lib)
-
-
-

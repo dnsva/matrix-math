@@ -21,10 +21,9 @@ private:
     //Array to store the 2d matrix:
     double* m_array = nullptr; //must set to nullptr first otherwise copy constructor will delete what doesnt have values. copy constructor checks if array address is nullptr
 
+    int to_index(int r, int c) const; //for function readabiliity throughout the implementations
 
 public:
-
-    int to_index(int r, int c) const;
 
     //Constructor Definitions:
     /*
@@ -32,7 +31,7 @@ public:
     */
     Matrix(); //explicitly default constructor
     Matrix(int rows, int cols);
-    Matrix(int rows, int cols, int fill);
+    Matrix(int rows, int cols, double fill);
     Matrix(int rows, int cols, double arr[]); //populate matrix w 1D array
 
     //Copy Constructor:
@@ -87,10 +86,10 @@ public:
     - Why const:
         - A member function that returns a non-const reference provides direct access to that member
     */
-    const int& get_rows() const; //the second const keyword is the "member function const qualifier"
-    const int& get_cols() const; //this promises not to modify the object it is being called on
+    int get_rows() const; //the second const keyword is the "member function const qualifier"
+    int get_cols() const; //this promises not to modify the object it is being called on
     
-    const double& get(int r, int c) const; //getter for any given pos
+    double get(int r, int c) const; //getter for any given pos
     
     //Setters:
     //to do...

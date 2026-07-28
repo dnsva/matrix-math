@@ -32,16 +32,21 @@ Matrix::Matrix(int rows, int cols)
     : m_rows{rows}
     , m_cols{cols}
 {
+    if(rows <= 0 || cols <= 0) throw std::invalid_argument("Can't be negative dimensions!\n");
+
     std::cout<<this<<" was allocated using the Matrix(r,c) constructor\n";
     m_array = new double[rows*cols](); //the () ensures that you fill w/ 0s
    // std::cout<<"the new matrix: \n"<<*this<<"\n";
    
 }
 
-Matrix::Matrix(int rows, int cols, int fill)
+/*NOTE DO NOT USE 0 TO FILL. IF NEED TO FILL W/ 0s, USE THE CONSTRUCTOR r, c*/
+Matrix::Matrix(int rows, int cols, double fill)
     : m_rows{rows}
     , m_cols{cols}
 {
+    if(rows <= 0 || cols <= 0) throw std::invalid_argument("Can't be negative dimensions!\n");
+    
     std::cout<<this<<" was allocated using the Matrix(r,c,fill) constructor\n";
     m_array = new double[rows*cols];
     for(int i = 0; i < rows*cols; ++i) m_array[i] = fill;
@@ -51,12 +56,20 @@ Matrix::Matrix(int rows, int cols, int fill)
 something to think about - an array of ints could be passed in and it wont compile.
 find a way to cast to arr of doubles so that it works too
 */
+
+/*
+note: since double arr[] is technically a double*, there is no way to know if rows and cols is accurate
+to the size of the arr...
+
+*/
 Matrix::Matrix(int rows, int cols, double arr[]) //to the compiler, this is identical as saying double* arr
     
     : m_rows{rows}
     , m_cols{cols}
    
 { 
+    if(rows <= 0 || cols <= 0) throw std::invalid_argument("Can't be negative dimensions!\n");
+
     //std::cout<<"the address of the array from the arg is "<<&arr<<"\n";
     //std::cout<<"m_array now holds "<<&m_array<<"\n";
     std::cout<<this<<" was allocated using the Matrix(r,c,arr) constructor\n";
@@ -83,12 +96,9 @@ Matrix::Matrix(const Matrix& other)
 
     std::cout<<"Inside the copy constructor for setting object at "<<this<<" from obj "<<&other<<"\n";
 
-    if(m_array != nullptr){
-        //std::cout<<m_array<<" is gonna get deleted\n";
-        delete[] m_array;
-        //std::cout<<"successfully deleted!\n";
-    }
-    
+    //Before,  i had delete[] m_array if m_array != nullptr. This isnt necessary
+    //because this is a copy CONSTRUCTOR. it shoulnt have existing array data
+
     int num_elems = other.m_rows*other.m_cols;
     m_array = new double[num_elems];
     for(int i = 0; i < num_elems; i++){
@@ -173,7 +183,11 @@ Matrix& Matrix::operator=(Matrix&& other) noexcept{
 //Destructor:
 Matrix::~Matrix(){
 
-    if(m_array == nullptr) return; //idk if this is necessary
+    //if(m_array == nullptr) return; //idk if this is necessary
+    /*
+    The above isnt necessary. it is actually SAFE to delete nullptrs. 
+    See https://en.cppreference.com/cpp/language/delete
+    */
 
     std::cout<<"Obj at memory: " << this << " got destructed...\n";
 
@@ -186,13 +200,10 @@ Matrix::~Matrix(){
 }
 
 //Public member functions:
-const int& Matrix::get_rows() const {return m_rows;}
-const int& Matrix::get_cols() const {return m_cols;}
+int Matrix::get_rows() const {return m_rows;}
+int Matrix::get_cols() const {return m_cols;}
 
-/*
-to do: better error handling
-*/
-const double& Matrix::get(int r, int c) const {
+double Matrix::get(int r, int c) const {
     if(r >= m_rows  || c >= m_cols ||  r < 0 || c < 0){
         throw std::out_of_range("The indices are out of bounds!");
     }
@@ -213,7 +224,7 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
     for(int r = 0; r < matrix.m_rows; ++r){
         for(int c = 0; c < matrix.m_cols; ++c){
-            out << matrix.m_array[r*matrix.m_cols + c] <<" ";
+            out << matrix.m_array[matrix.to_index(r, c)] <<" ";
         }
         out <<"\n";
     }
@@ -269,10 +280,9 @@ Matrix operator*(const Matrix& a, const Matrix& b){
     if(a.m_cols != b.m_rows) throw std::length_error("First matrices columns must equal the second matrices rows");
 
     std::cout<<"inside * operator overload\n";
-    Matrix result{a.m_rows, b.m_cols, 0}; //fill w/ 0
+    Matrix result{a.m_rows, b.m_cols}; //fill w/ 0 is done
     //std::cout<<"Test\n";
     int curr_result_cell = 0;
-
     //std::cout<<"about to enter the loops\n";
     for(int a_row = 0; a_row < a.m_rows; ++a_row){
         //std::cout<<"in row for loop : "<<a_row<<"\n";
@@ -280,7 +290,8 @@ Matrix operator*(const Matrix& a, const Matrix& b){
            // std::cout<<"in col for loop : "<<b_col<<"\n";
             for(int k = 0; k < a.m_cols; ++k){ //or b.m_cols
                 /* calculates the dot product of the row and col */
-               result.m_array[curr_result_cell] += a.m_array[a_row*a.m_cols + k] * b.m_array[k * b.m_cols + b_col];
+               //result.m_array[curr_result_cell] += a.m_array[a_row*a.m_cols + k] * b.m_array[k*b.m_cols + b_col];
+               result.m_array[curr_result_cell] += a.m_array[a.to_index(a_row, k)] * b.m_array[b.to_index(k, b_col)];
             }
             ++curr_result_cell; 
         }
@@ -297,6 +308,7 @@ bool operator==(const Matrix& a, const Matrix& b){
     }
 
     for(int i = 0; i < a.m_rows*a.m_cols; ++i){
+        /* epsilon = 1e-9*/
         if(std::abs(a.m_array[i] - b.m_array[i]) > 1e-9) return false; //use epsilon comparison in case there are small rounding differences between floats
     }
     return true;

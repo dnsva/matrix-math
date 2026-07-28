@@ -125,4 +125,12 @@ private:
 
 C++16 has `std::optional<T>` which can either have a value of type T, or not. 
 
+# returning const reference or just reference VS by copy:
+Read https://www.learncpp.com/cpp-tutorial/return-by-reference-and-return-by-address/
+
+Remember: Return by reference for expensive-to-copy members and by value for cheap-to-copy types
+
+"Cheap-to-copy types": `int`, `float`, `double`, `bool`, `char`, enums, pointers
+
+
 # Continue from:
