@@ -54,7 +54,7 @@ int main() {
     std::cout<<"C equals D? : "<<(c == d)<<"\n";
 
     /* operator */
-    std::cout<<"at index 1: "<<c[1]<<"\n";
+    //std::cout<<"at index 1: "<<c[1]<<"\n";
 
     return 0;
 }

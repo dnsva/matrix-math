@@ -33,7 +33,7 @@ Matrix::Matrix(int rows, int cols)
     , m_cols{cols}
 {
     std::cout<<this<<" was allocated using the Matrix(r,c) constructor\n";
-    m_array = new double[rows*cols];
+    m_array = new double[rows*cols](); //the () ensures that you fill w/ 0s
    // std::cout<<"the new matrix: \n"<<*this<<"\n";
    
 }
@@ -203,7 +203,7 @@ void Matrix::set(int r, int c, double value){
     if(r >= m_rows  || c >= m_cols ||  r < 0 || c < 0){
         throw std::out_of_range("The indices are out of bounds!");
     }
-    m_array[r*m_cols + c] = value;
+    m_array[to_index(r,c)] = value;
 }
 
 //Operator Overloads
@@ -225,7 +225,7 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix){
 
 //Addition
 //Add the corresponding values of the cells together
-Matrix operator+(Matrix& a, Matrix& b){
+Matrix operator+(const Matrix& a, const Matrix& b){
     if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
         throw std::length_error("The sizes of both matricies must equal each other!");
     }
@@ -237,7 +237,7 @@ Matrix operator+(Matrix& a, Matrix& b){
     return result;
 }
 
-Matrix operator-(Matrix& a, Matrix& b){
+Matrix operator-(const Matrix& a, const Matrix& b){
     //copy paste from above with just a sign change
     if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
         throw std::length_error("The sizes of both matricies must equal each other!");
@@ -251,7 +251,7 @@ Matrix operator-(Matrix& a, Matrix& b){
 }
 
 //Multiply
-Matrix operator*(Matrix& a, double& scalar){
+Matrix operator*(const Matrix& a, double scalar){
     Matrix result = a;
     for(int i = 0; i < result.m_rows*result.m_cols; ++i){
         result.m_array[i] *= scalar;
@@ -259,11 +259,11 @@ Matrix operator*(Matrix& a, double& scalar){
     return result;
 }
 
-Matrix operator*(double& scalar, Matrix& a){
+Matrix operator*(double scalar, const Matrix& a){
     return a*scalar; //call above
 }
 
-Matrix operator*(Matrix& a, Matrix& b){ 
+Matrix operator*(const Matrix& a, const Matrix& b){ 
     //throw error if dims are incorrect
     //a.m_cols must equal b.m_rows
     if(a.m_cols != b.m_rows) throw std::length_error("First matrices columns must equal the second matrices rows");
@@ -290,18 +290,18 @@ Matrix operator*(Matrix& a, Matrix& b){
 
 }
 
-bool operator==(Matrix& a, Matrix& b){
+bool operator==(const Matrix& a, const Matrix& b){
 
     if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
         return false; //diff sizes automatically means theyre not the same.
     }
 
     for(int i = 0; i < a.m_rows*a.m_cols; ++i){
-        if(a.m_array[i] != b.m_array[i]) return false;
+        if(std::abs(a.m_array[i] - b.m_array[i]) > 1e-9) return false; //use epsilon comparison in case there are small rounding differences between floats
     }
     return true;
 }
 
-bool operator!=(Matrix& a, Matrix& b){
+bool operator!=(const Matrix& a, const Matrix& b){
     return !(a == b);
 }

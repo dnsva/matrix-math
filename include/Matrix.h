@@ -113,17 +113,16 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const Matrix& matrix);
 
     /* ARITHMETIC OPERATORS: */
-    //to do:
-    friend Matrix operator+(Matrix& a, Matrix& b); //add two matrices (their values). matrices must be same dims
-    friend Matrix operator-(Matrix& a, Matrix& b); //see add
+    friend Matrix operator+(const Matrix& a, const Matrix& b); //add two matrices (their values). matrices must be same dims
+    friend Matrix operator-(const Matrix& a, const Matrix& b); //see add
 
-    friend Matrix operator*(Matrix& a, double& scalar); //scalar multiply
-    friend Matrix operator*(double& scalar, Matrix& a); //scalar multiply
+    friend Matrix operator*(const Matrix& a, double scalar); //scalar multiply
+    friend Matrix operator*(double scalar, const Matrix& a); //scalar multiply
 
-    friend Matrix operator*(Matrix& a, Matrix& b); //Matrix multiply
+    friend Matrix operator*(const Matrix& a, const Matrix& b); //Matrix multiply
 
-    friend bool operator==(Matrix& a, Matrix& b); //testing purposes
-    friend bool operator!=(Matrix& a, Matrix& b);
+    friend bool operator==(const Matrix& a, const Matrix& b); //testing purposes
+    friend bool operator!=(const Matrix& a, const Matrix& b);
 
 };
 
