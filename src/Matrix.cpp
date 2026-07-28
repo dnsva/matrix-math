@@ -34,6 +34,15 @@ Matrix::Matrix(int rows, int cols)
    
 }
 
+Matrix::Matrix(int rows, int cols, int fill)
+    : m_rows{rows}
+    , m_cols{cols}
+{
+    std::cout<<this<<" was allocated using the Matrix(r,c,fill) constructor\n";
+    m_array = new double[rows*cols];
+    for(int i = 0; i < rows*cols; ++i) m_array[i] = fill;
+    //std::cout<<"successfully filled\n";
+}
 /* 
 something to think about - an array of ints could be passed in and it wont compile.
 find a way to cast to arr of doubles so that it works too
@@ -216,12 +225,12 @@ Matrix operator+(Matrix& a, Matrix& b){
     if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
         throw std::length_error("The sizes of both matricies must equal each other!");
     }
-    Matrix temp = a; //should trigger copy consntructor
+    Matrix result = a; //should trigger copy consntructor
     for(int i = 0; i < a.m_rows*a.m_cols; i++){
-        temp.m_array[i] += b.m_array[i];
+        result.m_array[i] += b.m_array[i];
     }
 
-    return temp;
+    return result;
 }
 
 Matrix operator-(Matrix& a, Matrix& b){
@@ -229,10 +238,53 @@ Matrix operator-(Matrix& a, Matrix& b){
     if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
         throw std::length_error("The sizes of both matricies must equal each other!");
     }
-    Matrix temp = a; //should trigger copy consntructor
+    Matrix result = a; //should trigger copy consntructor
     for(int i = 0; i < a.m_rows*a.m_cols; i++){
-        temp.m_array[i] -= b.m_array[i];
+        result.m_array[i] -= b.m_array[i];
     }
 
-    return temp;
+    return result;
 }
+
+//Multiply
+Matrix operator*(Matrix& a, double& scalar){
+    Matrix result = a;
+    for(int i = 0; i < result.m_rows*result.m_cols; ++i){
+        result.m_array[i] *= scalar;
+    }
+    return result;
+}
+
+Matrix operator*(double& scalar, Matrix& a){
+    return a*scalar; //call above
+}
+
+Matrix operator*(Matrix& a, Matrix& b){ 
+    //throw error if dims are incorrect
+    //a.m_cols must equal b.m_rows
+    if(a.m_cols != b.m_rows) throw std::length_error("First matrices columns must equal the second matrices rows");
+
+    std::cout<<"inside * operator overload\n";
+    Matrix result{a.m_rows, b.m_cols, 0}; //fill w/ 0
+    //std::cout<<"Test\n";
+    int curr_result_cell = 0;
+
+    //std::cout<<"about to enter the loops\n";
+    for(int a_row = 0; a_row < a.m_rows; ++a_row){
+        //std::cout<<"in row for loop : "<<a_row<<"\n";
+        for(int b_col = 0; b_col < b.m_cols; ++b_col){
+           // std::cout<<"in col for loop : "<<b_col<<"\n";
+            for(int k = 0; k < a.m_cols; ++k){ //or b.m_cols
+                /* calculates the dot product of the row and col */
+               result.m_array[curr_result_cell] += a.m_array[a_row*a.m_cols + k] * b.m_array[k * b.m_cols + b_col];
+            }
+            ++curr_result_cell; 
+        }
+    }
+
+    return result;
+
+}
+
+//to do:
+//add r, c to inidex fn

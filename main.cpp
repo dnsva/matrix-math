@@ -41,6 +41,8 @@ int main() {
 
     std::cout<<"adding:\n"<<a+b<<"subtracting:\n"<<a-b<<"\n";
 
+    /* mult */
+    std::cout<<"MULT: "<<a*b<<"\n";
 
 
     return 0;

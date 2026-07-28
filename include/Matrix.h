@@ -30,6 +30,7 @@ public:
     */
     Matrix(); //explicitly default constructor
     Matrix(int rows, int cols);
+    Matrix(int rows, int cols, int fill);
     Matrix(int rows, int cols, double arr[]); //populate matrix w 1D array
 
     //Copy Constructor:
@@ -113,9 +114,13 @@ public:
     //to do:
     friend Matrix operator+(Matrix& a, Matrix& b); //add two matrices (their values). matrices must be same dims
     friend Matrix operator-(Matrix& a, Matrix& b); //see add
-    
-    friend Matrix& operator*(Matrix& other); //scalar multiply
-    friend Matrix& operator*(Matrix& other); //Matrix multiply
+
+    friend Matrix operator*(Matrix& a, double& scalar); //scalar multiply
+    friend Matrix operator*(double& scalar, Matrix& a); //scalar multiply
+
+    friend Matrix operator*(Matrix& a, Matrix& b); //Matrix multiply
+
+
     friend bool operator==(Matrix& a, Matrix& b); //testing purposes
   //  friend operator[]
 
