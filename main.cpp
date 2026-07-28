@@ -44,6 +44,17 @@ int main() {
     /* mult */
     std::cout<<"MULT: "<<a*b<<"\n";
 
+    /* equals */
+    double c_list[] = {1,2,3,4};
+    Matrix c {2, 2, c_list};
+
+    double d_list[] = {1,2,3,4};
+    Matrix d {2, 2, d_list};
+
+    std::cout<<"C equals D? : "<<(c == d)<<"\n";
+
+    /* operator */
+    std::cout<<"at index 1: "<<c[1]<<"\n";
 
     return 0;
 }

@@ -24,6 +24,8 @@ private:
 
 public:
 
+    int to_index(int r, int c) const;
+
     //Constructor Definitions:
     /*
     - Constructors don't have a return type
@@ -120,10 +122,8 @@ public:
 
     friend Matrix operator*(Matrix& a, Matrix& b); //Matrix multiply
 
-
     friend bool operator==(Matrix& a, Matrix& b); //testing purposes
-  //  friend operator[]
-
+    friend bool operator!=(Matrix& a, Matrix& b);
 
 };
 

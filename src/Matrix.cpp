@@ -2,6 +2,10 @@
 
 #include <iostream> //cout
 
+//Helper fn:
+int Matrix::to_index(int r, int c) const{
+    return r*m_cols + c;
+}
 
 //Constructors:
 /*
@@ -173,12 +177,12 @@ Matrix::~Matrix(){
 
     std::cout<<"Obj at memory: " << this << " got destructed...\n";
 
-    std::cout<<"attemptingn to delete array at "<<m_array<<"\n";
+   // std::cout<<"attemptingn to delete array at "<<m_array<<"\n";
     delete[] m_array;
-    std::cout<<"array now deletd\n";
+   // std::cout<<"array now deletd\n";
     m_array = nullptr;
 
-    std::cout<<"successfully destructed\n";
+   // std::cout<<"successfully destructed\n";
 }
 
 //Public member functions:
@@ -192,7 +196,7 @@ const double& Matrix::get(int r, int c) const {
     if(r >= m_rows  || c >= m_cols ||  r < 0 || c < 0){
         throw std::out_of_range("The indices are out of bounds!");
     }
-    return m_array[r*m_cols + c];
+    return m_array[to_index(r,c)];
 }
 
 void Matrix::set(int r, int c, double value){
@@ -286,5 +290,18 @@ Matrix operator*(Matrix& a, Matrix& b){
 
 }
 
-//to do:
-//add r, c to inidex fn
+bool operator==(Matrix& a, Matrix& b){
+
+    if(a.m_rows != b.m_rows || a.m_cols != b.m_cols){
+        return false; //diff sizes automatically means theyre not the same.
+    }
+
+    for(int i = 0; i < a.m_rows*a.m_cols; ++i){
+        if(a.m_array[i] != b.m_array[i]) return false;
+    }
+    return true;
+}
+
+bool operator!=(Matrix& a, Matrix& b){
+    return !(a == b);
+}
