@@ -1,7 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <iostream>
+#include <iosfwd>//iostream isnt needed since were just using the std::ostream& reference
+//iosfwd just inclues the forward declarationis of iostream
 
 //this file only does declarations
 //everything is implemented in Matrix.cpp
@@ -122,6 +123,34 @@ public:
 
     friend bool operator==(const Matrix& a, const Matrix& b); //testing purposes
     friend bool operator!=(const Matrix& a, const Matrix& b);
+
+    /*
+    add
+    +=  -=  *=
+
+    - could be useed to make every val negative
+
+    
+
+    */
+
+    /* ACTUAL MATH FUNCTIONS: ------------------------------- */
+
+    Matrix transpose() const; //why const? so it can be used in const reference member functions and not mutate anything
+
+    static Matrix identity(int dim); //dim is both r and c
+
+    Matrix submatrix(int excluded_row, int excluded_col) const;
+
+    double first_minor(int excluded_row, int excluded_col) const; //See: https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+
+    double cofactor(int excluded_row, int excluded_col) const; //builds upon first minor
+
+    /*
+    - determinnant
+    - inverse
+
+    */
 
 };
 

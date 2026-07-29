@@ -1,6 +1,7 @@
 #include "Matrix.h"
 
 #include <iostream> //cout
+#include <stdexcept> //for throwing exceptions
 
 //Helper fn:
 int Matrix::to_index(int r, int c) const{
@@ -317,3 +318,38 @@ bool operator==(const Matrix& a, const Matrix& b){
 bool operator!=(const Matrix& a, const Matrix& b){
     return !(a == b);
 }
+
+/* ACTUAL MATH FUNCTIONS: ------------------------------- */
+
+Matrix Matrix::transpose() const{ //flip rows and cols 
+
+    Matrix new_matrix {this->m_cols, this->m_rows};
+
+    //Square?
+    if(this->m_rows == this->m_cols){
+        //add shortcut code
+
+
+        return new_matrix;
+    }
+
+
+    //not square:
+    //do normally 
+    return new_matrix;
+}
+
+Matrix Matrix::identity(int dim){ //needs testing
+
+    if(dim <= 0) throw std::out_of_range("The indices are out of bounds!");
+
+    Matrix identity_matrix{dim, dim, 0.0};
+
+    for(int i = 0; i < dim; ++i){
+        identity_matrix.m_array[identity_matrix.to_index(i,i)] = 1.1;
+    }
+
+    return identity_matrix;
+
+}
+
