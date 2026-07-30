@@ -56,5 +56,10 @@ int main() {
     /* operator */
     //std::cout<<"at index 1: "<<c[1]<<"\n";
 
+    std::cout<<"Before:\n"<<d<<"\nTransposed: "<<d.transpose()<<"\n";
+
+    /* identity */
+    //std::cout<<"an identity matrix of dims 5 is: "<<Matrix::identity(5)<<"\n";
+
     return 0;
 }

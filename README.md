@@ -1,3 +1,5 @@
+# Matrix Math
+
 This library is mainly for learning purposes. 
 
 I will write the useful stuff I learn in each file so there will be alot of comments. This is basically my notes. 

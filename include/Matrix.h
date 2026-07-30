@@ -130,7 +130,7 @@ public:
 
     - could be useed to make every val negative
 
-    
+
 
     */
 

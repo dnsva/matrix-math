@@ -3,6 +3,8 @@
 #include <iostream> //cout
 #include <stdexcept> //for throwing exceptions
 
+//#include <optional> //for optional arguments 
+
 //Helper fn:
 int Matrix::to_index(int r, int c) const{
     return r*m_cols + c;
@@ -323,30 +325,29 @@ bool operator!=(const Matrix& a, const Matrix& b){
 
 Matrix Matrix::transpose() const{ //flip rows and cols 
 
-    Matrix new_matrix {this->m_cols, this->m_rows};
+    /*
+    An operation that flips a matrix over its diagonal
+    */
 
-    //Square?
-    if(this->m_rows == this->m_cols){
-        //add shortcut code
+    Matrix new_matrix {m_cols, m_rows}; //(m,n) matrix turns inito (n,m) matrix
 
-
-        return new_matrix;
+    for(int r = 0; r < m_rows; r++){
+        for(int c = 0; c < m_cols; c++){
+            new_matrix.m_array[to_index(c,r)] =  m_array[to_index(r,c)]; //no need to call set() since the rs and cs are guarranteed within range
+        }
     }
 
-
-    //not square:
-    //do normally 
     return new_matrix;
 }
 
-Matrix Matrix::identity(int dim){ //needs testing
+Matrix Matrix::identity(int dim){
 
     if(dim <= 0) throw std::out_of_range("The indices are out of bounds!");
 
     Matrix identity_matrix{dim, dim, 0.0};
 
     for(int i = 0; i < dim; ++i){
-        identity_matrix.m_array[identity_matrix.to_index(i,i)] = 1.1;
+        identity_matrix.m_array[identity_matrix.to_index(i,i)] = 1.0;
     }
 
     return identity_matrix;
