@@ -141,5 +141,5 @@ Remember: Return by reference for expensive-to-copy members and by value for che
 
 ### Random Cool Things:
 
-C++16 has `std::optional<T>` which can either have a value of type T, or not. 
+C++17 has `std::optional<T>` which can either have a value of type T, or not. 
 
